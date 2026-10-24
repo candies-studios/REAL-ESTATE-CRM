@@ -25,6 +25,7 @@ export default async function PropertiesPage({ searchParams }: { searchParams: S
     transaction: one(sp.transaction) || undefined,
     type: one(sp.type) || undefined,
     maxBudget: Number(one(sp.maxBudget)) || undefined,
+    sort: one(sp.sort) || undefined,
   };
   const page = Math.max(1, Number(one(sp.page)) || 1);
   const { items, total, pageSize } = await getPublicProperties(filters, page);
@@ -48,6 +49,20 @@ export default async function PropertiesPage({ searchParams }: { searchParams: S
       <div className="mt-6">
         <SearchBar defaults={{ ...filters, maxBudget: filters.maxBudget ? String(filters.maxBudget) : undefined }} />
       </div>
+      {total > 1 && (
+        <form method="get" className="mt-4 flex items-center justify-end gap-2 text-sm">
+          {Object.entries(filters).filter(([k, v]) => v && k !== 'sort').map(([k, v]) => (
+            <input key={k} type="hidden" name={k} value={String(v)} />
+          ))}
+          <label htmlFor="sort" className="text-stone-600">Sort by</label>
+          <select id="sort" name="sort" defaultValue={filters.sort ?? ''} className="h-10 rounded-lg border border-stone-300 bg-white px-2">
+            <option value="">Newest</option>
+            <option value="price_asc">Price: low to high</option>
+            <option value="price_desc">Price: high to low</option>
+          </select>
+          <button type="submit" className="h-10 rounded-lg border border-stone-300 bg-white px-3 font-semibold text-navy-900">Apply</button>
+        </form>
+      )}
 
       {items.length > 0 ? (
         <>
@@ -70,7 +85,7 @@ export default async function PropertiesPage({ searchParams }: { searchParams: S
           </p>
           <div className="mt-5 flex justify-center gap-3">
             <Link href="/properties" className={buttonVariants({ variant: 'outline' })}>Clear filters</Link>
-            <Link href="/contact?topic=buy" className={buttonVariants({ variant: 'primary' })}>Share your requirement</Link>
+            <Link href="/enquire/buy" className={buttonVariants({ variant: 'primary' })}>Share your requirement</Link>
           </div>
         </Card>
       )}

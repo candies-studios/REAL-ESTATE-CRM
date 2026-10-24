@@ -32,4 +32,4 @@ done
 
 export TEST_DATABASE_URL="postgres://postgres@localhost:$PORT/app"
 cd "$ROOT"
-npx vitest run --dir tests/db
+npx vitest run --dir tests/db --no-file-parallelism

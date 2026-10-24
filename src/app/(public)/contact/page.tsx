@@ -1,4 +1,6 @@
 import { Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
+import { Suspense } from 'react';
+import { EnquiryForm } from '@/components/site/enquiry-form';
 import type { Metadata } from 'next';
 import { buttonVariants } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -14,7 +16,7 @@ export default function ContactPage() {
       <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold-600">Contact</p>
       <h1 className="mt-2 text-4xl">Talk to a broker</h1>
       <p className="mt-3 max-w-2xl text-lg text-stone-600">
-        For buying, selling, renting or a site visit, reach us directly. Online enquiry forms with requirement matching are being added next.
+        For buying, selling, renting or a site visit, send a message below or reach us directly.
       </p>
 
       <div className="mt-10 grid gap-6 md:grid-cols-[1.2fr_1fr]">
@@ -51,6 +53,10 @@ export default function ContactPage() {
           ) : (
             <p className="mt-4 text-stone-600">Contact details will appear here once the brokerage adds them.</p>
           )}
+        </Card>
+        <Card className="p-7 md:row-span-2">
+          <h2 className="text-2xl">Send a message</h2>
+          <div className="mt-5"><Suspense><EnquiryForm variant="contact" submitLabel="Send message" /></Suspense></div>
         </Card>
         <Card className="p-7">
           <h2 className="text-2xl">Areas we cover</h2>

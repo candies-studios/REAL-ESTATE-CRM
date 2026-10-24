@@ -6,13 +6,18 @@ import { Sidebar } from '@/components/dashboard/sidebar';
 import { brand } from '@/config/brand';
 import { getMemberships, requireMembership } from '@/lib/auth';
 import { can, ROLE_LABELS } from '@/lib/permissions';
+import { createClient } from '@/lib/supabase/server';
 
 export const metadata = { title: 'Workspace', robots: { index: false, follow: false } };
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { user, membership } = await requireMembership();
   const memberships = await getMemberships();
-  const items = DASHBOARD_NAV.filter((i) => !i.permission || can(membership.role, i.permission));
+  const supabase = await createClient();
+  const { count: unread } = await supabase.from('notification_logs').select('id', { count: 'exact', head: true })
+    .eq('recipient_id', user.id).eq('org_id', membership.orgId).eq('channel', 'in_app').is('read_at', null);
+  const items = DASHBOARD_NAV.filter((i) => !i.permission || can(membership.role, i.permission))
+    .map((i) => (i.icon === 'reminders' ? { ...i, badge: unread ?? 0 } : i));
   const name = (user.user_metadata?.full_name as string | undefined) || user.email;
 
   const footer = (

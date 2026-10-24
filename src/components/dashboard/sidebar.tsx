@@ -1,7 +1,7 @@
 'use client';
 
 import {
-  BarChart3, Building2, CalendarDays, CheckSquare, Columns3, LayoutDashboard, Menu, UserRound, Users, X,
+  BarChart3, Bell, Building2, CalendarDays, CheckSquare, Columns3, LayoutDashboard, Menu, Settings, UserRound, Users, X,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -12,7 +12,7 @@ import type { NavItem } from './nav';
 
 const ICONS = {
   overview: LayoutDashboard, leads: UserRound, pipeline: Columns3, properties: Building2,
-  visits: CalendarDays, tasks: CheckSquare, reports: BarChart3, team: Users,
+  visits: CalendarDays, tasks: CheckSquare, reports: BarChart3, team: Users, reminders: Bell, settings: Settings,
 };
 
 export function Sidebar({ items, brandName, footer }: { items: NavItem[]; brandName: string; footer: React.ReactNode }) {
@@ -37,6 +37,9 @@ export function Sidebar({ items, brandName, footer }: { items: NavItem[]; brandN
           >
             <Icon className={cn('h-[18px] w-[18px]', active ? 'text-gold-300' : '')} aria-hidden="true" />
             {item.label}
+            {item.badge ? (
+              <span className="ml-auto rounded-full bg-gold-500 px-2 text-xs font-bold text-navy-950" aria-label={`${item.badge} unread`}>{item.badge > 99 ? '99+' : item.badge}</span>
+            ) : null}
           </Link>
         );
       })}

@@ -11,10 +11,10 @@ import { cn } from '@/lib/utils';
 export const revalidate = 300;
 
 const SERVICES = [
-  { icon: Home, title: 'Buyers', body: 'Tell us your budget, preferred localities and timeline. We shortlist options that fit and arrange site visits.', cta: 'Start your search', href: '/properties?transaction=sale' },
-  { icon: Building, title: 'Sellers', body: 'Share your property details. We review them, verify documents and market the listing to qualified buyers.', cta: 'List your property', href: '/contact?topic=sell' },
-  { icon: KeyRound, title: 'Landlords', body: 'Find tenants for your flat, office or shop, with screening and visits handled for you.', cta: 'Rent out a property', href: '/contact?topic=landlord' },
-  { icon: Users, title: 'Tenants', body: 'Share your move-in date, budget and furnishing needs and see rentals that match.', cta: 'Find a rental', href: '/properties?transaction=rent' },
+  { icon: Home, title: 'Buyers', body: 'Tell us your budget, preferred localities and timeline. We shortlist options that fit and arrange site visits.', cta: 'Start your search', href: '/enquire/buy' },
+  { icon: Building, title: 'Sellers', body: 'Share your property details. We review them, verify documents and market the listing to qualified buyers.', cta: 'List your property', href: '/enquire/sell' },
+  { icon: KeyRound, title: 'Landlords', body: 'Find tenants for your flat, office or shop, with screening and visits handled for you.', cta: 'Rent out a property', href: '/enquire/sell?topic=landlord' },
+  { icon: Users, title: 'Tenants', body: 'Share your move-in date, budget and furnishing needs and see rentals that match.', cta: 'Find a rental', href: '/enquire/rent' },
 ];
 
 const PROCESS = [
@@ -46,8 +46,8 @@ export default async function HomePage() {
             <SearchBar />
           </div>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/contact?topic=visit" className={buttonVariants({ variant: 'gold', size: 'lg' })}>Book a site visit</Link>
-            <Link href="/properties" className={buttonVariants({ variant: 'light', size: 'lg' })}>Browse properties</Link>
+            <Link href="/properties" className={buttonVariants({ variant: 'gold', size: 'lg' })}>Book a site visit</Link>
+            <Link href="/enquire/buy" className={buttonVariants({ variant: 'light', size: 'lg' })}>Share your requirement</Link>
           </div>
         </div>
       </section>
@@ -73,7 +73,7 @@ export default async function HomePage() {
               <p className="font-display text-xl text-navy-900">New listings are being verified.</p>
               <p className="mt-1 text-stone-600">Tell us what you’re looking for and we’ll share options that fit as soon as they’re confirmed.</p>
             </div>
-            <Link href="/contact?topic=buy" className={buttonVariants({ variant: 'primary' })}>Share your requirement</Link>
+            <Link href="/enquire/buy" className={buttonVariants({ variant: 'primary' })}>Share your requirement</Link>
           </Card>
         )}
       </section>
@@ -158,9 +158,9 @@ export default async function HomePage() {
         <div className="mx-auto flex max-w-7xl flex-col items-start gap-6 rounded-3xl bg-gold-100 px-8 py-12 md:flex-row md:items-center md:justify-between md:px-14">
           <div>
             <h2 className="text-3xl">Ready to see a property in person?</h2>
-            <p className="mt-2 max-w-xl text-stone-700">Share a few details and your broker will confirm a visit time that suits you.</p>
+            <p className="mt-2 max-w-xl text-stone-700">Share your requirement and your broker will shortlist options and confirm a visit time that suits you.</p>
           </div>
-          <Link href="/contact?topic=visit" className={cn(buttonVariants({ variant: 'primary', size: 'lg' }))}>Book a site visit</Link>
+          <Link href="/enquire/buy" className={cn(buttonVariants({ variant: 'primary', size: 'lg' }))}>Share your requirement</Link>
         </div>
       </section>
     </>

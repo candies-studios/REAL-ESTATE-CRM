@@ -8,6 +8,8 @@ const NAV = [
   { href: '/properties', label: 'Properties' },
   { href: '/properties?category=residential', label: 'Residential' },
   { href: '/properties?category=commercial', label: 'Commercial' },
+  { href: '/enquire/sell', label: 'Sell / Rent out' },
+  { href: '/shortlist', label: 'Shortlist' },
   { href: '/contact', label: 'Contact' },
 ];
 
@@ -32,8 +34,8 @@ export function SiteHeader() {
           <Link href="/login" className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }), 'hidden sm:inline-flex')}>
             Broker sign in
           </Link>
-          <Link href="/contact" className={buttonVariants({ variant: 'primary', size: 'sm' })}>
-            Book a site visit
+          <Link href="/enquire/buy" className={buttonVariants({ variant: 'primary', size: 'sm' })}>
+            Enquire now
           </Link>
         </div>
       </div>

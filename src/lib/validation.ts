@@ -51,9 +51,21 @@ export function friendlyDbError(message: string | undefined): string {
   if (m.includes('already a member')) return 'That person is already on your team.';
   if (m.includes('ask them to sign up')) return 'No account uses that email yet. Ask them to sign up first, then add them.';
   if (m.includes('only owners can')) return 'Only an owner can grant or change owner and admin roles.';
-  if (m.includes('only owners and admins')) return 'Only owners and admins can manage the team.';
+  if (m.includes('only owners and admins')) return 'Only owners and admins can do that.';
   if (m.includes('at least one owner')) return 'Your organization must keep at least one owner.';
   if (m.includes('already created an organization')) return 'You have already created a brokerage. Ask its owner to add you instead.';
   if (m.includes('name is too short')) return 'Enter your brokerage name.';
+  if (m.includes('lost reason')) return 'Add a reason before marking the lead as lost.';
+  if (m.includes('already has a visit')) return 'That broker already has a visit booked at this time. Pick another time or broker.';
+  if (m.includes('verify the listing')) return 'Mark the listing as verified before publishing it.';
+  if (m.includes('cannot reassign')) return 'Only owners and admins can reassign leads.';
+  if (m.includes('cannot override')) return 'Only owners and admins can override scores.';
+  if (m.includes('hot threshold')) return 'The Hot threshold must be higher than the Warm threshold.';
+  if (m.includes('working hours')) return 'Working hours must end after they start.';
+  if (m.includes('already merged')) return 'That lead has already been merged.';
+  if (m.includes('snooze')) return 'Choose when the task should come back.';
+  if (m.includes('duplicate key') && m.includes('ref_code')) return 'Another listing already uses that listing ID.';
+  if (m.includes('row-level security') || m.includes('not allowed') || m.includes('permission denied')) return 'You don’t have permission to do that.';
+  if (m.includes('violates foreign key') && m.includes('stage')) return 'That stage still has leads. Move them first.';
   return 'Something went wrong. Please try again.';
 }

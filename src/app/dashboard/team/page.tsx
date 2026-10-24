@@ -54,7 +54,7 @@ export default async function TeamPage() {
       )}
 
       <Card className="overflow-hidden">
-        <div className="overflow-x-auto">
+        <div className="relative overflow-x-auto">
           <table className="w-full min-w-[640px] text-left text-sm">
             <caption className="sr-only">Team members</caption>
             <thead className="border-b border-stone-200 bg-stone-100/70 text-xs uppercase tracking-wider text-stone-600">
