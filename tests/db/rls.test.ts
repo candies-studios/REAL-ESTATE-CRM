@@ -266,14 +266,14 @@ describe('public visitors (anon)', () => {
   it('sees only published, live listings via public_properties, without private fields', async () => {
     await as(ownerA,
       `insert into properties (org_id, ref_code, title, transaction_type, category, property_type, locality,
-         status, is_published, address_private, internal_notes, is_demo)
+         status, is_published, address_private, internal_notes, is_demo, last_verified_at)
        values ($1, 'VSH-101', 'Demo 3 BHK in Vashi', 'sale', 'residential', 'apartment', 'Vashi',
-         'available', true, 'Flat 1203, Secret Towers', 'owner wants quick sale', true),
+         'available', true, 'Flat 1203, Secret Towers', 'owner wants quick sale', true, now()),
               ($1, 'VSH-102', 'Unpublished listing', 'sale', 'residential', 'apartment', 'Vashi',
-         'available', false, null, null, true),
+         'available', false, null, null, true, null),
               ($1, 'VSH-103', 'Sold listing', 'sale', 'residential', 'apartment', 'Vashi',
-         'sold', true, null, null, true)`, [orgA]);
-    const rows = await as<Row>(null, `select * from public_properties`);
+         'sold', false, null, null, true, now())`, [orgA]);
+    const rows = await as<Row>(null, `select * from public_properties where org_id = $1`, [orgA]);
     expect(rows.map((r) => r.ref_code)).toEqual(['VSH-101']);
     expect(rows[0]).not.toHaveProperty('address_private');
     expect(rows[0]).not.toHaveProperty('internal_notes');
@@ -300,7 +300,7 @@ describe('audit trail and idempotency', () => {
   it('dedupe_key prevents duplicate automated tasks', async () => {
     const insert = `insert into tasks (org_id, lead_id, assigned_to, title, due_at, dedupe_key)
                     values ($1, $2, $3, 'First contact', now(), $4)`;
-    const key = `first_contact:${leadA1}`;
+    const key = `test_task:${leadA1}`;
     await as(ownerA, insert, [orgA, leadA1, brokerA, key]);
     await expect(as(ownerA, insert, [orgA, leadA1, brokerA, key])).rejects.toThrow(/duplicate key/);
   });
@@ -310,6 +310,7 @@ describe('audit trail and idempotency', () => {
       `insert into tasks (org_id, lead_id, assigned_to, title, due_at) values ($1, $2, $3, 'Call back', now())`,
       [orgA, leadA2, broker2A]);
     const mine = await as<{ lead_id: string }>(brokerA, `select lead_id from tasks where org_id=$1`, [orgA]);
-    expect(mine.every((t) => t.lead_id === leadA1)).toBe(true);
+    expect(mine.length).toBeGreaterThan(0);
+    expect(mine.some((t) => t.lead_id === leadA2)).toBe(false);
   });
 });

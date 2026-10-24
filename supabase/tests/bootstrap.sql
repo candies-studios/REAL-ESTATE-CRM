@@ -48,3 +48,7 @@ alter default privileges for role migrator in schema public
 
 -- pgcrypto must be installed by a superuser in plain Postgres.
 create extension if not exists pgcrypto with schema extensions;
+
+-- Mirror Supabase: auth.users has Row Level Security enabled, so our functions
+-- must not depend on reading it directly.
+alter table auth.users enable row level security;
